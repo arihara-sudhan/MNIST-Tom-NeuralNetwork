@@ -79,31 +79,12 @@ class TomCounts_ARI:
 		print(f'Accuracy: {round(correct/total, 3)}')
 		th=0
 		while True:
-			digit = str(int(torch.argmax(model(x[th].view(-1, 784))[0])))
+			digit = int(torch.argmax(model(x[th].view(-1, 784))[0]))
 			frame = numpy.array(transforms.ToPILImage()(x[th]).convert("RGB"))[:, :, ::-1].copy()
 			frame = cv2.resize(frame,(w//2+50+50,h+50+80))
 			cv2.imwrite('imgframe.jpg',frame)
-			self.imgframe = pygame.image.load("imgframe.jpg")
-			if digit == "0":
-				self.blitForever('SpeakAud/0.mp3')
-			elif digit == "1":
-				self.blitForever('SpeakAud/1.mp3')
-			elif digit == "2":
-				self.blitForever('SpeakAud/2.mp3')
-			elif digit == "3":
-				self.blitForever('SpeakAud/3.mp3')
-			elif digit == "4":
-				self.blitForever('SpeakAud/4.mp3')
-			elif digit == "5":
-				self.blitForever('SpeakAud/5.mp3')
-			elif digit == "6":
-				self.blitForever('SpeakAud/6.mp3')
-			elif digit == "7":
-				self.blitForever('SpeakAud/7.mp3')
-			elif digit == "8":
-				self.blitForever('SpeakAud/8.mp3')
-			elif digit == "9":
-				self.blitForever('SpeakAud/9.mp3')
+			self.imgframe = pygame.image.load("imgframe.jpg")
+			self.blitForever(f'SpeakAud/{digit}.mp3')
 			self.blitForever()
 			for	eve in pygame.event.get():
 				if eve.type==pygame.KEYDOWN:
